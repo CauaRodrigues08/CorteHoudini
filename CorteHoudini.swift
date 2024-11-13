@@ -24,7 +24,7 @@ indexCards.insert("A", at: 0)
 indexCards.append("J")
 indexCards.append("Q")
 indexCards.append("K")
- 
+
 print (indexCards)
 print ("-Num. de Índices \(indexCards.count)")
 
@@ -48,15 +48,15 @@ print ("-Num. de cartas \(deck.count)\n")
 //Devolve a carta retirada
 //Devolve o resto do baralho
 func takeAnyCard(deck: [String]) -> (deck: [String], card: String) {
-    
+
     // Gera um índice aleatório (baralho de 52 cartas) entre 0 (primeira carta) e deck.count - 1. ( última carta -> index 51).
-    
+
     var index = Int.random(in: 0...(deck.count - 1))
-    
+
     let card = deck[index]
     var deckAux = deck
     deckAux.remove(at: index)
-        
+
     return (deckAux,card)
 }
 
@@ -69,12 +69,12 @@ print (exDeckCard.deck.count)
 //devolve uma pilha com n cartas
 //deviolve uma pilha com o resto do braralho
 func take_nCards(deck: [String], nCards: Int) -> (pile_nCards: [String], pileRest: [String]) {
-    
+
     var pile_nCards : [String] = []
     var pileRest : [String] = []
-    
+
     if nCards>0 && nCards<deck.count {
-        
+
         pile_nCards = Array(deck[0...nCards-1])
         pileRest = Array(deck[nCards...deck.count-1])
     } else if nCards == 0 {
@@ -82,7 +82,7 @@ func take_nCards(deck: [String], nCards: Int) -> (pile_nCards: [String], pileRes
     } else if nCards == deck.count {
         pile_nCards = Array(deck[0...deck.count-1])
     }
-    
+
     return (pile_nCards,pileRest)
 }
 
@@ -97,25 +97,25 @@ print (exDeck_nCards.pileRest.count)
 
 
 func insertOneCardFirstPosition(deck: [String], card: String) -> [String] {
-    
+
     var deckAux = deck
-    
+
     if deck.count < 52 {
         deckAux.insert(card, at: 0)
-        
+
     } 
-    
+
     return (deckAux)
 }
 
 func insertOneCardLastPosition(deck: [String], card: String) -> [String] {
-    
+
     var deckAux = deck
-    
+
     if deck.count < 52 {
         deckAux.append(card)
     } 
-    
+
     return (deckAux)
 }
 
@@ -125,11 +125,11 @@ func insertOneCardLastPosition(deck: [String], card: String) -> [String] {
 //devolver uma pilha as cartas de índice impar (Odd)
 
 func takeEvenPileAndOddPile(deck: [String]) -> (EvenPile: [String], OddPile: [String]) {
-    
+
     var EvenPile : [String] = []
     var OddPile : [String] = []
-    
-    
+
+
     for i in 0...deck.count-1 {
         //Nesse caso o primerio índice (0) é impar pois seria a primeira carta do baralho
         if (i+1) % 2 == 0 {
@@ -138,7 +138,7 @@ func takeEvenPileAndOddPile(deck: [String]) -> (EvenPile: [String], OddPile: [St
             OddPile.append(deck[i])
         }
     }
-    
+
     return (EvenPile,OddPile)
 }
 
@@ -201,44 +201,22 @@ newDeck = newDeck.reversed()
 
 print("\nDeck reverso - \n\(newDeck)")
 
-var evenCards : [String] = []
-var oddCards : [String] = []
-var finalPile : [String] = []
+print("Agora descartamos as cartas em uma ordem específica:")
 
-func getEvenPile(deck: [String]) -> [String] {
-    var evenPile : [String] = []
-    for i in 0...(deck.count-1){
-        if (i+1)%2 == 0{
-            evenPile.append(deck[i])
-        }
-    }
-    return evenPile
-}
+let evenCards1 = takeEvenPileAndOddPile(deck: newDeck).EvenPile
 
-func getOddPile(deck: [String]) -> [String] {
-    var oddPile : [String] = []
-    for i in 0...(deck.count-1){
-        if (i+1)%2 == 1{
-            oddPile.append(deck[i])
-        }
-    }
-    return oddPile
-}
+print("\nNova pilha com ímpares descartados = \n\(evenCards1)")
 
-evenCards = getEvenPile(deck: newDeck)
+let evenCards2 = takeEvenPileAndOddPile(deck: evenCards1.reversed()).EvenPile
 
-print("\nNova pilha com ímpares descartados = \n\(evenCards)")
+print("\nNova pilha com ímpares descartados novamente = \n\(evenCards2)")
 
-evenCards = getEvenPile(deck: evenCards)
-
-print("\nNova pilha com ímpares descartados novamente = \n\(evenCards)")
-
-oddCards = getOddPile(deck: evenCards)
+let oddCards = takeEvenPileAndOddPile(deck: evenCards2.reversed()).OddPile
 
 print("\nNova pilha com pares descartados = \n\(oddCards)")
 
-finalPile = getEvenPile(deck: oddCards)
+let evenCards3 = takeEvenPileAndOddPile(deck: oddCards.reversed()).EvenPile
 
-print("\nPilha final com ímpares descartados novamente = \n\(finalPile)")
+print("\nPilha final com ímpares descartados novamente = \n\(evenCards3)")
 
 print("\nCartas selecionadas inicialmente: \n\(selectedCards)")
